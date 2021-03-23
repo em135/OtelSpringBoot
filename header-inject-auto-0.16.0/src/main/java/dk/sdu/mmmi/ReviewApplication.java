@@ -7,6 +7,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @SpringBootApplication
+//@EnableOpenTelemetry
 public class ReviewApplication {
 
 	@Bean

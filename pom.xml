@@ -20,8 +20,8 @@
     </properties>
 
     <modules>
-        <module>header-inject-auto</module>
-        <module>header-inject-manual</module>
+        <module>header-inject-auto-1.0.1</module>
+        <module>header-inject-auto-0.16.0</module>
     </modules>
 
     <repositories>
@@ -75,13 +75,6 @@
             <scope>test</scope>
         </dependency>
         <!-- End Spring Framework -->
-
-        <!-- OTEL -->
-        <dependency>
-            <groupId>io.opentelemetry</groupId>
-            <artifactId>opentelemetry-context</artifactId>
-            <version>1.0.1</version>
-        </dependency>
 
         <!-- JUnit -->
         <dependency>
