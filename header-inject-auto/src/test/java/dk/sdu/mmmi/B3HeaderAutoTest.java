@@ -18,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @ExtendWith(SpringExtension.class)
 @ExtendWith(MockitoExtension.class)
@@ -35,8 +36,14 @@ public class B3HeaderAutoTest {
 	@Test
 	public void interceptor_isInjected() {
 		// Assert
-		Assertions.assertFalse(restTemplate.getInterceptors().isEmpty());
-		Assertions.assertTrue(restTemplate.getInterceptors().get(0) instanceof io.opentelemetry.instrumentation.spring.httpclients.RestTemplateInterceptor);
+		Assertions.assertFalse(
+				restTemplate.getInterceptors().isEmpty(),
+				"No interceptor was injected"
+		);
+		Assertions.assertTrue(
+				restTemplate.getInterceptors().get(0) instanceof io.opentelemetry.instrumentation.spring.httpclients.RestTemplateInterceptor,
+				"The injected interceptor is incorrect"
+		);
 	}
 
 	@Test
@@ -51,8 +58,13 @@ public class B3HeaderAutoTest {
 		restTemplate.getForObject("http://localhost:8080", String.class);
 
 		// Assert
-		Assertions.assertNotNull(httpHeaders.get("X-B3-TraceId"));
-		Assertions.assertNotNull(httpHeaders.get("X-B3-SpanId"));
-		Assertions.assertNotNull(httpHeaders.get("X-B3-Sampled"));
+		Arrays.asList(
+				"X-B3-TraceId",
+				"X-B3-SpanId",
+				"X-B3-Sampled"
+		).forEach(header -> Assertions.assertNotNull(
+				httpHeaders.get(header),
+				"Missing header " + header
+		));
 	}
 }
